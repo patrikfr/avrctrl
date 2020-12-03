@@ -8,7 +8,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.concurrent.Callable;
 
 @Command(name = "avrctrl", description = "Control Denon AVR-Xx100 receivers")
@@ -16,16 +18,16 @@ public class AvrCtrl implements Callable<Integer> {
 
   private static final String AVR_NETWORK_NAME = "denon-avr-x2100w.local";
   private static final int AVR_NETWORK_PORT = 23;
+  public static final int READ_TIMEOUT = 2000;
 
   @CommandLine.Parameters(index = "0", description = "The action to perform.")
   private String action;
 
   @CommandLine.Parameters(index = "1", description = "Action input.", defaultValue = "")
-  private String actionInput;
+  private String actionParameter;
 
   @Option(names = {"-d", "--debug"})
   private boolean debug;
-
 
   //avrctrl select-input MPLAY
   //avrctrl on
@@ -43,12 +45,15 @@ public class AvrCtrl implements Callable<Integer> {
     ) {
 
       if (debug) {
+        echoSocket.setSoTimeout(READ_TIMEOUT);
         final Runnable eventReader = () -> {
           try {
             //noinspection InfiniteLoopStatement
             while (true) {
               System.out.println(in.readLine());
             }
+          } catch (final SocketTimeoutException ste) {
+            //Silently suppress
           } catch (final Exception e) {
             e.printStackTrace(System.out);
           }
@@ -56,21 +61,19 @@ public class AvrCtrl implements Callable<Integer> {
         new Thread(eventReader).start();
       }
 
-      final String command = action + actionInput + "\r";
-      out.print(command);
-      out.flush();
+      final String command = action + actionParameter + "\r";
+      out.printf(command);
 
       if (debug) {
-        try {
-          //Give the AVR a couple of seconds to repsond
-          Thread.sleep(2000);
-        } catch (final InterruptedException ie) {/*Silently suppress*/}
+        Thread.sleep(READ_TIMEOUT);
       }
-
-    } catch (final IOException e) {
+      return 0;
+    } catch (final ConnectException ce) {
+      System.out.printf("Failed to connect to %s%n", AVR_NETWORK_NAME);
+    } catch (final IOException | InterruptedException e) {
       e.printStackTrace();
     }
-    return 0;
+    return -1;
   }
 
   //COMMANDS:
