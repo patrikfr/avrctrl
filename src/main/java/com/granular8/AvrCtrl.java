@@ -15,9 +15,10 @@ import java.util.Set;
 
 import static picocli.CommandLine.ScopeType.INHERIT;
 
-@Command(name = "avrctrl", description = "Control Denon AVR-Xx100 receivers")
+@Command(name = "avrctrl", description = "Control Denon AVR-Xx100 receivers", version = "${bundle:build.version}", resourceBundle = "AvrCtrl", mixinStandardHelpOptions = true)
 public class AvrCtrl {
-  private static final String AVR_NETWORK_NAME = "denon-avr-x2100w.local";
+
+  private static final String AVR_NETWORK_NAME = "denon-avr-x2100w.local"; //TODO: Make this configurable from cli
   private static final int AVR_NETWORK_PORT = 23;
   private static final int READ_TIMEOUT = 2000;
   private static final Set<String> validInputSources = Set.of("MPLAY", "CD", "BD");
