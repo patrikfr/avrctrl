@@ -23,12 +23,13 @@ jobs:
           java-version: 11
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-      - name: Build native image
+      - name: Install Graal VM
         uses: ayltai/setup-graalvm@v1
         with:
           java-version: 11
           graalvm-version: 20.2.0
           native-image: true
+      - name: Buil dnative image
         run: native-image --no-server --no-fallback -jar target/avr-ctrl-${{ env.VERSION }}.jar avrctrl
       - name: Upload binary
         uses: actions/upload-artifact@v2
