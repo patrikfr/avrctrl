@@ -9,7 +9,7 @@ Using a Java 11 JDK:
 
 ## Running
 
-`java -jar target/avr-ctrl-0.2.jar --help`
+`java -jar target/avr-ctrl-0.3-SNAPSHOT.jar --help`
 
 For a more native feeling, create an alias, and/or build a native image (see _Building a Native Image Using GraalVM_
 below).
@@ -55,7 +55,7 @@ For faster startup and stand-alone execution, a native image can be built
 using [GraalVM](https://www.graalvm.org/reference-manual/native-image/). The Maven build sets up what is needed to build
 a native image. For this to work, GraalVM and the Native Image tool must be installed. First, build the project
 using `mvn clean install` — preferably using the GraalVM JDK to avoid version mismatch issues — then run:  
-`native-image --no-server --no-fallback -jar target/avr-ctrl-0.2.jar avrctrl`
+`native-image --no-server --no-fallback -jar target/avr-ctrl-0.3-SNAPSHOT.jar avrctrl`
 
 The resulting executable `avrctrl` can be run from the command line as:  
 `./avrctrl --help`
