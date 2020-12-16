@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: Test
-        default: v1.0.0
+        description: Dev
+        default: v0.2
         required: true
 
 name: Package and Build Release Asset Native Image
@@ -18,7 +18,15 @@ jobs:
     runs-on: ubuntu-latest #macos-11.0
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout manual version
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.version }}
+        if: github.event.inputs.version != ''
+
+      - name: Checkout triggered ref
+        uses: actions/checkout@v2
+        if: github.event.inputs.version == ''
 
       - name: Get Version Number, strip v prefix
         run: echo "VERSION=${$TAG:1}" >> $GITHUB_ENV
@@ -45,7 +53,7 @@ jobs:
           graalvm-version: 20.2.0
           native-image: true
 
-      - name: Buil dnative image
+      - name: Build native image
         run: native-image --no-server --no-fallback -jar target/avr-ctrl-${{ env.VERSION }}.jar avrctrl
 
       - name: Upload binary
