@@ -18,7 +18,15 @@ import java.util.TreeMap;
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static picocli.CommandLine.ScopeType.INHERIT;
 
-@Command(name = "avrctrl", description = "Control Denon AVR-Xx100 receivers", version = "${bundle:build.version}", resourceBundle = "AvrCtrl", mixinStandardHelpOptions = true, defaultValueProvider = PropertiesDefaultProvider.class)
+/**
+ * Simple CLI for controlling a subset of Denon AVR Xx100 receivers over the network.
+ */
+@Command(name = "avrctrl",
+    description = "Control Denon AVR-Xx100 receivers",
+    version = "${bundle:build.version}",
+    resourceBundle = "AvrCtrl",
+    mixinStandardHelpOptions = true,
+    defaultValueProvider = PropertiesDefaultProvider.class)
 public class AvrCtrl {
 
   private static final int READ_TIMEOUT = 2000;
