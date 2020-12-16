@@ -29,10 +29,8 @@ jobs:
         if: github.event.inputs.version == ''
 
       - name: Get Version Number, strip v prefix
-        run: echo "VERSION=${TAG:1}" >> $GITHUB_ENV
+        run: echo "VERSION=echo ${${GITHUB_REF/refs\/tags\//}:1}" >> $GITHUB_ENV
         if: github.event.inputs.version == ''
-        env:
-          TAG: ${GITHUB_REF/refs\/tags\//}
 
       - name: Get Version Number, manual input
         run: echo "VERSION=${TAG:1}" >> $GITHUB_ENV
