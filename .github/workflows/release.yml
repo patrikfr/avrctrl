@@ -32,7 +32,7 @@ jobs:
         run: echo "VERSION=${TAG:1}" >> $GITHUB_ENV
         if: github.event.inputs.version == ''
         env:
-          TAG: ${{ github.ref }}
+          TAG: ${{ github.event.ref }}
 
       - name: Get Version Number, manual input
         run: echo "VERSION=${TAG:1}" >> $GITHUB_ENV
