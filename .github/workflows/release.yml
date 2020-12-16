@@ -19,28 +19,35 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: 'Get Version Number, strip "v" prefix'
+        run: echo "VERSION=${$TAG:1}" >> $GITHUB_ENV"
         if: github.event.inputs.version == ''
         env:
           TAG: ${{ github.ref }}
-        run: echo "VERSION=${$TAG:1}" >> $GITHUB_ENV"
+
       - name: 'Get Version Number, strip "v" prefix'
-        if: github.event.inputs.version != ''
         run: echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV"
+        if: github.event.inputs.version != ''
+
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
           java-version: 11
+
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+
       - name: Install Graal VM
         uses: ayltai/setup-graalvm@v1
         with:
           java-version: 11
           graalvm-version: 20.2.0
           native-image: true
+
       - name: Buil dnative image
         run: native-image --no-server --no-fallback -jar target/avr-ctrl-${{ env.VERSION }}.jar avrctrl
+
       - name: Upload binary
         uses: actions/upload-artifact@v2
         with:
