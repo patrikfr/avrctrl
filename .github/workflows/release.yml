@@ -20,14 +20,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: 'Get Version Number, strip "v" prefix'
-        run: echo "VERSION=${$TAG:1}" >> $GITHUB_ENV"
+      - name: Get Version Number, strip v prefix
+        run: echo "VERSION=${$TAG:1}" >> $GITHUB_ENV
         if: github.event.inputs.version == ''
         env:
           TAG: ${{ github.ref }}
 
-      - name: 'Get Version Number, strip "v" prefix'
-        run: echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV"
+      - name: Get Version Number, manual input
+        run: echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
         if: github.event.inputs.version != ''
 
       - name: Set up JDK 11
