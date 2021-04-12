@@ -19,7 +19,7 @@ import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static picocli.CommandLine.ScopeType.INHERIT;
 
 /**
- * Simple CLI for controlling a subset of Denon AVR Xx100 receivers over the network.
+ * Simple CLI offering a subset of commands for controlling Denon AVR Xx100 receivers over the network.
  */
 @Command(name = "avrctrl",
     description = "Control Denon AVR-Xx100 receivers",
@@ -58,14 +58,24 @@ public class AvrCtrl {
     return sendCommand("SI" + mappedSource);
   }
 
-  @Command(name = "on", description = "Turn on receiver")
+  @Command(name = "on", description = "Turn on receiver (all zones)")
   int on() {
     return sendCommand("PWON");
   }
 
-  @Command(name = "standby", description = "Set receiver to standby")
+  @Command(name = "standby", description = "Set receiver to standby (all zones)")
   int standby() {
     return sendCommand("PWSTANDBY");
+  }
+
+  @Command(name = "z2-on", description = "Power on Zone 2")
+  int zone2On() {
+    return sendCommand("Z2ON");
+  }
+
+  @Command(name = "z2-off", description = "Power off Zone 2")
+  int zone2Off() {
+    return sendCommand("Z2OFF");
   }
 
   @Command(name = "vol-up", description = "Increase master volume 0.5 step")
