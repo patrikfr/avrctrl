@@ -15,7 +15,7 @@ name: Package and Build Release Asset Native Image
 jobs:
   build:
     name: Build GraalVM Native Image
-    runs-on: macos-11.0
+    runs-on: macos-latest
 
     steps:
       - name: Checkout manual version
