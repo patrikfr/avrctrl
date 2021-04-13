@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+/**
+ * Debug tool, opening an interactive session to the receiver. Reads input commands from the command line, outputs responses and events.
+ */
 public class AvrCtrlDebugTool {
   //COMMANDS:
   //SI {MPLAY, CD, BD}
@@ -14,6 +17,7 @@ public class AvrCtrlDebugTool {
   //MV <int>
   //MVUP
   //MVDOWN
+  //...
 
   public static void main(final String[] args) {
     try (
@@ -28,7 +32,7 @@ public class AvrCtrlDebugTool {
           while (true) {
             System.out.println(in.readLine());
           }
-        } catch (Exception e) {
+        } catch (final Exception e) {
           System.out.println(e);
         }
       };
@@ -43,8 +47,7 @@ public class AvrCtrlDebugTool {
         out.flush();
       }
 
-    } catch (
-        final IOException e) {
+    } catch (final IOException e) {
       e.printStackTrace();
     }
   }
