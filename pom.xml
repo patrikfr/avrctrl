@@ -6,7 +6,7 @@
 
   <groupId>com.granular8</groupId>
   <artifactId>avr-ctrl</artifactId>
-  <version>0.10</version>
+  <version>0.11</version>
 
   <name>avr-ctrl</name>
 
